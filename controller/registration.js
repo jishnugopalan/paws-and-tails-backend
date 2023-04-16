@@ -1,13 +1,13 @@
 var User=require('../model/registration')
 var Shop=require('../model/shop')
-
 var Customer=require('../model/customer')
-
+var Advisor=require('../model/advisors')
 
 var jwt= require("jsonwebtoken");
 const expressJwt = require("express-jwt");
 
 const { ObjectId } = require('mongodb');
+const { body } = require('express-validator')
 
 exports.addUser=(req,res)=>{
     console.log(req.body)
@@ -29,7 +29,7 @@ exports.addUser=(req,res)=>{
                     if(req.body.usertype=="shop")
                     {
                        
-                        req.body.userid=ObjectId(newUser._id)
+                        req.body.user=ObjectId(newUser._id)
                         let shop=new Shop(req.body)
                         
                         shop.save((err,newShop)=>{
@@ -94,23 +94,24 @@ exports.addUser=(req,res)=>{
         }
 
 exports.login=(req,res)=>{
-User.findOne({email:req.body.email,password:req.body.password},(err,user)=>{
-    if(err){
-        return res.status(404).json({error:"Error in fetching email"})
+    User.findOne({email:req.body.email,password:req.body.password},(err,user)=>{
+        if(err){
+            return res.status(404).json({error:"Error in fetching email"})
+        }
+        else if(user){
+            //create token
+            const token = jwt.sign({_id:user._id},process.env.SECRET);
+            //put token in cookie
+            res.cookie("token",token,{expire: new Date()+9999});
+            return res.status(201).json({token,user})
+        }
+        else{
+            return res.status(404).json({error:"Invalid email or password"})
+        }
     }
-    else if(user){
-        //create token
-        const token = jwt.sign({_id:user._id},process.env.SECRET);
-        //put token in cookie
-        res.cookie("token",token,{expire: new Date()+9999});
-        return res.status(201).json({token,user})
-    }
-    else{
-        return res.status(404).json({error:"Invalid email or password"})
-    }
+        )
 }
-    )
-}
+
 exports.findUser=(req,res)=>{
     console.log(req.body)
     User.findOne({_id:ObjectId(req.body.userid)},(err,user)=>{

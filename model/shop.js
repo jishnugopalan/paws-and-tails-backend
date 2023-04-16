@@ -1,9 +1,10 @@
 var mongoose = require("mongoose");
-const {ObjectId}=mongoose.Schema
+const {ObjectId}=require("mongodb")
 var shopSchema=mongoose.Schema({
-    userid:{
+    user:{
         type: ObjectId,
         required: true,
+        ref:"User"
     },
     shopname:{
         type: String,

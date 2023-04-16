@@ -1,5 +1,5 @@
 var express = require('express'),
 routes = express.Router()
-var advisorController=require('../controller/advisors')
-routes.post('/advisor',advisorController.addUser)
+var customerController=require('../controller/advisors')
+routes.post('/advisors',customerController.addUser)
 module.exports = routes

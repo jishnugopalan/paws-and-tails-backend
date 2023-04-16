@@ -1,16 +1,15 @@
 var mongoose = require("mongoose");
 const {ObjectId}=mongoose.Schema
 var subcategorySchema=mongoose.Schema({
-   
-    categoryid:{
+
+    category:{
         type: ObjectId,
-        required: true
-        
-    },
+        ref: "Category",
+        required: true,
+    },   
     subcategory:{
-        type: String,
-        required: true
-        
+        type:String,
+        required: true,
     }
-    })
-    module.exports=mongoose.model("Category",categorySchema);
+})
+module.exports=mongoose.model("Subcategory",subcategorySchema);

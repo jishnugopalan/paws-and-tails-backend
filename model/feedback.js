@@ -6,13 +6,10 @@ var feedbackSchema=mongoose.Schema({
         type: ObjectId,
         required: true,
     },   
-    
-    feedbackdescription:{
+    complaintdescription:{
         type:String,
         required: true,
-    }
-
-    
-    
+    },
+        
 })
-module.exports=mongoose.model("Complaint",complaintSchema);
+module.exports=mongoose.model("Feedback",feedbackSchema);

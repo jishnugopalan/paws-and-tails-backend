@@ -3,8 +3,6 @@ var userSchema=mongoose.Schema({
     name:{
         type: String,
         required: true,
-        minlength: 3,
-        maxlength:50
     },
     email:{
         type:String,
@@ -13,7 +11,8 @@ var userSchema=mongoose.Schema({
     },
     phone:{
         type:Number,
-        required:true
+        required:true,
+        unique: true
     },
     password:{
         type:String,
@@ -21,6 +20,7 @@ var userSchema=mongoose.Schema({
     },
     usertype:{
         type:String,
+        required:true,
         default:"user"
     }
 
